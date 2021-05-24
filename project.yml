@@ -1,0 +1,50 @@
+name: "MonoSwitch"
+settings:
+  DEVELOPMENT_TEAM: HHJXTX62XS
+  ENABLE_HARDENED_RUNTIME: YES
+  CLANG_ENABLE_OBJC_WEAK: NO # TODO: Uncomment when decreasing deployment target to 10.6
+  PRODUCT_BUNDLE_IDENTIFIER: bg.mangizi.monoswitch
+  MACOSX_DEPLOYMENT_TARGET: "10.6" # TODO: Fix
+targetTemplates:
+  Base:
+    type: application
+    platform: macOS
+    sources: [MonoSwitch]
+    scheme: {}
+    info:
+      path: MonoSwitch/Info.plist
+      properties:
+        LSApplicationCategoryType: public.app-category.music
+        LSUIElement: true
+        ITSAppUsesNonExemptEncryption: false
+        CFBundleDevelopmentRegion: $(DEVELOPMENT_LANGUAGE)
+        CFBundleExecutable: $(EXECUTABLE_NAME)
+        CFBundleIconFile: ""
+        CFBundleIdentifier: $(PRODUCT_BUNDLE_IDENTIFIER)
+        CFBundleInfoDictionaryVersion: "6.0"
+        CFBundleName: $(PRODUCT_NAME)
+        CFBundlePackageType: $(PRODUCT_BUNDLE_PACKAGE_TYPE)
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1.0"
+        LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
+        NSMainNibFile: MainMenu
+        NSPrincipalClass: NSApplication
+    settings:
+      CODE_SIGN_IDENTITY: "-"
+    dependencies:
+      - carthage: MASShortcut
+      - carthage: DNLoginServiceKit
+targets:
+  MonoSwitch No Sandbox:
+    templates:
+      - Base
+  MonoSwitch:
+    templates:
+      - Base
+    settings:
+      OTHER_CFLAGS: "-D SANDBOX"
+    entitlements:
+      path: MonoSwitch/MonoSwitch.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.files.user-selected.read-only: true
